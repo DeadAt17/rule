@@ -1,7 +1,9 @@
 # NAME: ai
 # AUTHOR: blackmatrix7
 # REPO: https://github.com/DeadAt17/rule
-# UPDATED: 2024-1-9 16:59:59
-# DOMAIN-SUFFIX: 1
-# TOTAL: 1
+# UPDATED: 2024-2-4 16:59:59
+# DOMAIN-SUFFIX: 3
+# TOTAL: 3
 DOMAIN-SUFFIX,generativelanguage.googleapis.com
+DOMAIN-SUFFIX,OPENAI.COM
+DOMAIN-SUFFIX,coze.com

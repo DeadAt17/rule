@@ -1,11 +1,7 @@
-# NAME: Claude
-# AUTHOR: blackmatrix7
-# REPO: https://github.com/DeadAt17/rule
-# DOMAIN-SUFFIX: 5
-# TOTAL: 5
 DOMAIN-SUFFIX,moji.mojieurl.com
 DOMAIN-SUFFIX,sdkdns11.com
 DOMAIN-SUFFIX,web.fscloud.cc
 DOMAIN-SUFFIX,service-pd0invz7-1321708559.cd.apigw.tencentcs.com
 DOMAIN-SUFFIX,sub2.smallstrawberry.com
 DOMAIN-SUFFIX,subcdn.xiaoleyun.cc
+DOMAIN-SUFFIX,subcdn.cos.cat

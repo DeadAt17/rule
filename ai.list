@@ -8,3 +8,5 @@ DOMAIN-SUFFIX,generativelanguage.googleapis.com
 DOMAIN-SUFFIX,OPENAI.COM
 DOMAIN-SUFFIX,coze.com
 DOMAIN,gemini.google.com
+DOMAIN-SUFFIX,x.ai
+DOMAIN,x.ai

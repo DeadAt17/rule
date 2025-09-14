@@ -24,3 +24,6 @@ DOMAIN-SUFFIX,marketplace.cursorapi.com
 DOMAIN-SUFFIX,download.todesktop.com
 DOMAIN-SUFFIX,cursor-cdn.com
 DOMAIN-KEYWORD,cursor
+# https://www.perplexity.ai/
+DOMAIN-KEYWORD,perplexity
+DOMAIN-SUFFIX,perplexity.ai

@@ -27,3 +27,9 @@ DOMAIN-KEYWORD,cursor
 # https://www.perplexity.ai/
 DOMAIN-KEYWORD,perplexity
 DOMAIN-SUFFIX,perplexity.ai
+# NotebookLM
+DOMAIN,notebooklm.google.com
+DOMAIN,notebooklm.google
+DOMAIN-SUFFIX,notebooklm.google
+DOMAIN-SUFFIX,notebooklm.google.com
+DOMAIN-KEYWORD,notebooklm

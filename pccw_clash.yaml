@@ -1,0 +1,9 @@
+payload:
+  - DOMAIN-KEYWORD,pccw
+  - DOMAIN-KEYWORD,wsoccp07
+  - DOMAIN-KEYWORD,hkt
+  - DOMAIN-KEYWORD,hkcsl
+  - DOMAIN-SUFFIX,pccw.com
+  - IP-CIDR,10.0.0.0/8
+  - IP-CIDR,10.0.0.0/16
+  - DOMAIN-KEYWORD,aicc

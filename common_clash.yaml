@@ -1,0 +1,6 @@
+payload:
+  - DOMAIN-KEYWORD,nodeseek
+  - DOMAIN-KEYWORD,greasyfork
+  - DOMAIN-SUFFIX,media.micu.hk
+  - DOMAIN-SUFFIX,linux.do
+  - IP-CIDR,140.245.62.140/24

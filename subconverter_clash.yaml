@@ -1,209 +1,537 @@
-# 转换自 DeadAt17 的 subconverter.ini
-### 基础配置
-port: 6233
-socks-port: 6234
-mixed-port: 7897 # 脚本可能会移除这个，保留也没事，脚本里有replace
-allow-lan: false
-mode: rule
-log-level: info
-external-controller: 127.0.0.1:9090
-ipv6: false
-find-process-mode: strict
-
-profile:
-  store-selected: true
-  store-fake-ip: true
+allow-lan: true
 unified-delay: true
 tcp-concurrent: true
-
-### DNS配置
+find-process-mode: strict
+global-client-fingerprint: chrome
+profile:
+    store-selected: true
+    store-fake-ip: true
+sniffer:
+    enable: true
+    sniff:
+        HTTP:
+            ports: [80, 8080-8880]
+            override-destination: true
+        TLS:
+            ports: [443, 8443]
+        QUIC:
+            ports: [443, 8443]
+    skip-domain:
+        - "Mijia Cloud"
+        - dlg.io.mi.com
+        - "+.push.apple.com"
+tun:
+    enable: true
+    stack: system
+    device: mihomo
+    dns-hijack:
+        - any:53
+        - tcp://any:53
+    auto-route: true
+    auto-detect-interface: true
+    strict-route: true
+    endpoint-independent-nat: true
 dns:
     enable: true
     listen: 0.0.0.0:53
     ipv6: false
     prefer-h3: true
+    respect-rules: true
     enhanced-mode: fake-ip
     use-hosts: true
     use-system-hosts: true
+    default-nameserver:
+        - tls://1.12.12.12
+        - 223.5.5.5
+        - 114.114.114.114
     nameserver:
+        - https://dns.cloudflare.com/dns-query
+        - https://dns.google/dns-query
+    proxy-server-nameserver:
         - https://223.5.5.5/dns-query
         - https://dns.pub/dns-query
+    nameserver-policy:
+        "geosite:cn,apple-cn,category-games@cn,private":
+            - https://223.5.5.5/dns-query
+            - https://dns.pub/dns-query
     fake-ip-range: 198.18.0.1/16
-    fake-ip-filter: ['rule-set:fakeip-filter,trackerslist,private,cn']
-
-### 地区筛选正则 (复用 override-hub 的优秀正则)
-FilterHK: &FilterHK '^(?=.*(香港|HK|Hong|🇭🇰))^(?!.*(网站|地址|剩余|过期|时间|有效|网址|禁止|邮箱|发布|客服|订阅|节点|落地|家宽|自建|×)).*$'
-FilterJP: &FilterJP '^(?=.*(日本|JP|Japan|🇯🇵))^(?!.*(网站|地址|剩余|过期|时间|有效|网址|禁止|邮箱|发布|客服|订阅|节点|落地|家宽|自建|×)).*$'
-FilterKR: &FilterKR '^(?=.*(韩国|韓|KR|Korea|🇰🇷))^(?!.*(网站|地址|剩余|过期|时间|有效|网址|禁止|邮箱|发布|客服|订阅|节点|落地|家宽|自建|×)).*$'
-FilterSG: &FilterSG '^(?=.*(新加坡|狮城|SG|Singapore|🇸🇬))^(?!.*(网站|地址|剩余|过期|时间|有效|网址|禁止|邮箱|发布|客服|订阅|节点|落地|家宽|自建|×)).*$'
-FilterUS: &FilterUS '^(?=.*(美国|US|United States|America|🇺🇸))^(?!.*(网站|地址|剩余|过期|时间|有效|网址|禁止|邮箱|发布|客服|订阅|节点|落地|家宽|自建|×)).*$'
-FilterTW: &FilterTW '^(?=.*(台湾|TW|Taiwan|Wan|🇨🇳|🇨🇳))^(?!.*(网站|地址|剩余|过期|时间|有效|网址|禁止|邮箱|发布|客服|订阅|节点|落地|家宽|自建|×)).*$'
-FilterAll: &FilterAll '^(?=.*(.))(?!.*((?i)群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|(\\b(USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author)\\b|(\\d{4}-\\d{2}-\\d{2}|\\d+G)))).*$'
-
-### 基础锚点
-Select: &Select {type: select, url: 'http://www.gstatic.com/generate_204', disable-udp: false, hidden: false, include-all: true}
-Auto: &Auto {type: url-test, url: 'http://www.gstatic.com/generate_204', interval: 300, tolerance: 50, disable-udp: false, hidden: true, include-all: true}
-
-### 策略组配置 (映射自 custom_proxy_group)
+    fake-ip-filter:
+      - '*.lan'
+      - '*.localdomain'
+      - '*.example'
+      - '*.invalid'
+      - '*.localhost'
+      - '*.test'
+      - '*.local'
+      - '*.home.arpa'
+      - '*.direct'
+      - 'time.*.com'
+      - 'time.*.gov'
+      - 'time.*.edu.cn'
+      - 'time.*.apple.com'
+      - 'time-ios.apple.com'
+      - 'time1.*.com'
+      - 'time2.*.com'
+      - 'time3.*.com'
+      - 'time4.*.com'
+      - 'time5.*.com'
+      - 'time6.*.com'
+      - 'time7.*.com'
+      - 'ntp.*.com'
+      - 'ntp1.*.com'
+      - 'ntp2.*.com'
+      - 'ntp3.*.com'
+      - 'ntp4.*.com'
+      - 'ntp5.*.com'
+      - 'ntp6.*.com'
+      - 'ntp7.*.com'
+      - '*.time.edu.cn'
+      - '*.ntp.org.cn'
+      - '+.pool.ntp.org'
+      - 'time1.cloud.tencent.com'
+      - 'music.163.com'
+      - '*.music.163.com'
+      - '*.126.net'
+      - 'musicapi.taihe.com'
+      - 'music.taihe.com'
+      - 'songsearch.kugou.com'
+      - 'trackercdn.kugou.com'
+      - '*.kuwo.cn'
+      - 'api-jooxtt.sanook.com'
+      - 'api.joox.com'
+      - 'joox.com'
+      - 'y.qq.com'
+      - '*.y.qq.com'
+      - 'streamoc.music.tc.qq.com'
+      - 'mobileoc.music.tc.qq.com'
+      - 'isure.stream.qqmusic.qq.com'
+      - 'dl.stream.qqmusic.qq.com'
+      - 'aqqmusic.tc.qq.com'
+      - 'amobile.music.tc.qq.com'
+      - '*.xiami.com'
+      - '*.music.migu.cn'
+      - 'music.migu.cn'
+      - '+.msftconnecttest.com'
+      - '+.msftncsi.com'
+      - 'localhost.ptlogin2.qq.com'
+      - 'localhost.sec.qq.com'
+      - 'localhost.*.weixin.qq.com'
+      - '+.steamcontent.com'
+      - '+.srv.nintendo.net'
+      - '*.n.n.srv.nintendo.net'
+      - '+.cdn.nintendo.net'
+      - '+.stun.playstation.net'
+      - 'xbox.*.*.microsoft.com'
+      - '*.*.xboxlive.com'
+      - 'xbox.*.microsoft.com'
+      - 'xnotify.xboxlive.com'
+      - '+.battle.net'
+      - '+.battlenet.com.cn'
+      - '+.wotgame.cn'
+      - '+.wggames.cn'
+      - '+.wowsgame.cn'
+      - '+.wargaming.net'
+      - 'proxy.golang.org'
+      - 'stun.*.*'
+      - 'stun.*.*.*'
+      - '+.stun.*.*'
+      - '+.stun.*.*.*'
+      - '+.stun.*.*.*.*'
+      - '+.stun.*.*.*.*.*'
+      - 'heartbeat.belkin.com'
+      - '*.linksys.com'
+      - '*.linksyssmartwifi.com'
+      - '*.router.asus.com'
+      - 'mesu.apple.com'
+      - 'swscan.apple.com'
+      - 'swquery.apple.com'
+      - 'swdownload.apple.com'
+      - 'swcdn.apple.com'
+      - 'swdist.apple.com'
+      - 'lens.l.google.com'
+      - 'stun.l.google.com'
+      - 'na.b.g-tun.com'
+      - '+.nflxvideo.net'
+      - '*.square-enix.com'
+      - '*.finalfantasyxiv.com'
+      - '*.ffxiv.com'
+      - '*.ff14.sdo.com'
+      - 'ff.dorado.sdo.com'
+      - '*.mcdn.bilivideo.cn'
+      - '+.media.dssott.com'
+      - 'shark007.net'
+      - 'Mijia Cloud'
+      - '+.market.xiaomi.com'
+      - '+.cmbchina.com'
+      - '+.cmbimg.com'
+      - 'adguardteam.github.io'
+      - 'adrules.top'
+      - 'anti-ad.net'
+      - 'local.adguard.org'
+      - 'static.adtidy.org'
+      - '+.sandai.net'
+      - '+.n0808.com'
+      - '+.3gppnetwork.org'
+      - '+.uu.163.com'
+      - 'ps.res.netease.com'
+      - '+.oray.com'
+      - '+.orayimg.com'
+      - '+.gcloudcs.com'
+      - '+.gcloudsdk.com'
+geodata-mode: true
+geox-url:
+    geoip: "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat"
+    geosite: "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat"
 proxy-groups:
-  # 🚀 节点选择
-  - {name: 🚀 节点选择, type: select, proxies: [💫 自动选择, 🇭🇰 香港节点, 🇸🇬 新加坡节点, 🇯🇵 日本节点, 🇰🇷 韩国节点, 🇺🇸 美国节点, 🇹🇼 台湾节点, DIRECT]}
+  - name: "节点选择"
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Proxy.png
+    type: select
+    proxies:
+      - "自动选择"
+      - "香港节点"
+      - "新加坡节点"
+      - "日本节点"
+      - "韩国节点"
+      - "美国节点"
+      - "台湾节点"
+  - name: "自动选择"
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png
+    type: url-test
+    url: http://www.YouTube.com/generate_204
+    interval: 200
+    proxies: []
+  - name: "Telegram"
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Telegram.png
+    type: select
+    proxies:
+      - "自动选择"
+      - "香港节点"
+      - "新加坡节点"
+      - "日本节点"
+      - "韩国节点"
+      - "美国节点"
+      - "台湾节点"
+  - name: "哔哩哔哩"
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/bilibili.png
+    type: select
+    proxies:
+      - DIRECT
+      - "香港节点"
+      - "台湾节点"
+  - name: "YouTube"
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/YouTube.png
+    type: select
+    proxies:
+      - "自动选择"
+      - DIRECT
+      - "香港节点"
+      - "日本节点"
+      - "韩国节点"
+      - "台湾节点"
+      - "美国节点"
+      - "新加坡节点"
+  - name: "Netflix"
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Netflix.png
+    type: select
+    proxies:
+      - "自动选择"
+      - DIRECT
+      - "香港节点"
+      - "日本节点"
+      - "韩国节点"
+      - "台湾节点"
+      - "美国节点"
+      - "新加坡节点"
+  - name: "Apple"
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Apple.png
+    type: select
+    proxies:
+      - DIRECT
+      - "自动选择"
+      - "香港节点"
+      - "日本节点"
+      - "韩国节点"
+      - "台湾节点"
+      - "美国节点"
+      - "新加坡节点"
+  - name: "Delta"
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Bypass.png
+    type: select
+    proxies:
+      - DIRECT
+      - "自动选择"
+      - "香港节点"
+      - "日本节点"
+      - "韩国节点"
+      - "台湾节点"
+      - "美国节点"
+      - "新加坡节点"
+  - name: "AI节点"
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Bot.png
+    type: select
+    proxies:
+      - "gpt|GPT|chat|CHAT|chatgpt|ChatGPT"
+      - "香港节点"
+      - "日本节点"
+      - "韩国节点"
+      - "台湾节点"
+      - "美国节点"
+      - "新加坡节点"
+  - name: "TikTok"
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/TikTok.png
+    type: select
+    proxies:
+      - "香港节点"
+      - "日本节点"
+      - "韩国节点"
+      - "台湾节点"
+      - "美国节点"
+      - "新加坡节点"
+  - name: "Microsoft"
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Microsoft.png
+    type: select
+    proxies:
+      - DIRECT
+      - "自动选择"
+      - "香港节点"
+      - "日本节点"
+      - "韩国节点"
+      - "台湾节点"
+      - "美国节点"
+      - "新加坡节点"
+  - name: "Game"
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Game.png
+    type: select
+    proxies:
+      - DIRECT
+      - "自动选择"
+      - "香港节点"
+      - "日本节点"
+      - "韩国节点"
+      - "台湾节点"
+      - "美国节点"
+      - "新加坡节点"
+  - name: "香港节点"
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/HK.png
+    type: url-test
+    url: http://www.YouTube.com/generate_204
+    interval: 200
+    filter: "香港|HK|中港|沪港|Hong"
+  - name: "台湾节点"
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/TW.png
+    type: url-test
+    url: http://www.YouTube.com/generate_204
+    interval: 200
+    filter: "台|新北|彰化|TW|Taiwan"
+  - name: "日本节点"
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/JP.png
+    type: url-test
+    url: http://www.YouTube.com/generate_204
+    interval: 200
+    filter: "日本((?!用).)+|东京|大阪|埼玉|JP|Japan"
+  - name: "韩国节点"
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/KR.png
+    type: url-test
+    url: http://www.YouTube.com/generate_204
+    interval: 200
+    filter: "KR|Korea|KOR|首尔|韩|韓|(?i)Korea"
+  - name: "美国节点"
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/US.png
+    type: url-test
+    url: http://www.YouTube.com/generate_204
+    interval: 200
+    filter: "美国|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|California|芝加哥|United States|US"
+  - name: "新加坡节点"
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/SG.png
+    type: url-test
+    url: http://www.YouTube.com/generate_204
+    interval: 200
+    filter: "SG|sg|加坡|狮城|Singapore"
 
-  # 💫 自动选择 (url-test)
-  - {name: 💫 自动选择, <<: *Auto, filter: *FilterAll}
-
-  # 📺 哔哩哔哩
-  - {name: 📺 哔哩哔哩, type: select, proxies: [DIRECT, 🇭🇰 香港节点, 🇹🇼 台湾节点]}
-
-  # 📺 YouTube
-  - {name: 📺 YouTube, type: select, proxies: [💫 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇰🇷 韩国节点, 🇹🇼 台湾节点, 🇺🇸 美国节点, 🇸🇬 新加坡节点]}
-
-  # 📺 Netflix
-  - {name: 📺 Netflix, type: select, proxies: [💫 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇰🇷 韩国节点, 🇹🇼 台湾节点, 🇺🇸 美国节点, 🇸🇬 新加坡节点]}
-
-  # 💃 TikTok
-  - {name: 💃 TikTok, type: select, proxies: [🇭🇰 香港节点, 🇯🇵 日本节点, 🇰🇷 韩国节点, 🇹🇼 台湾节点, 🇺🇸 美国节点, 🇸🇬 新加坡节点]}
-
-  # 💬 AI节点 (合并了 OpenAI, Claude, Gemini 等)
-  - {name: 💬 AI节点, type: select, proxies: [🇺🇸 美国节点, 🇯🇵 日本节点, 🇸🇬 新加坡节点, 🇹🇼 台湾节点, 🇰🇷 韩国节点, 🇭🇰 香港节点]}
-
-  # 🍎 Apple
-  - {name: 🍎 Apple, type: select, proxies: [DIRECT, 💫 自动选择, 🇺🇸 美国节点, 🇭🇰 香港节点, 🇯🇵 日本节点]}
-
-  # 📧 Microsoft
-  - {name: 📧 Microsoft, type: select, proxies: [DIRECT, 💫 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇺🇸 美国节点]}
-
-  # 🎮 Game
-  - {name: 🎮 Game, type: select, proxies: [DIRECT, 💫 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇺🇸 美国节点]}
-
-  # 😶 Delta (自定义)
-  - {name: 😶 Delta, type: select, proxies: [DIRECT, 💫 自动选择, 🇭🇰 香港节点]}
-
-  # 地区分组
-  - {name: 🇭🇰 香港节点, <<: *Auto, filter: *FilterHK}
-  - {name: 🇯🇵 日本节点, <<: *Auto, filter: *FilterJP}
-  - {name: 🇰🇷 韩国节点, <<: *Auto, filter: *FilterKR}
-  - {name: 🇹🇼 台湾节点, <<: *Auto, filter: *FilterTW}
-  - {name: 🇺🇸 美国节点, <<: *Auto, filter: *FilterUS}
-  - {name: 🇸🇬 新加坡节点, <<: *Auto, filter: *FilterSG}
-
-### 规则源配置 (映射自 surge_ruleset)
 rule-providers:
-  # 内置规则
-  fakeip-filter:
-    type: http
-    behavior: domain
-    format: mrs
-    url: https://testingcf.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-ruleset/fakeip-filter.mrs
-    path: ./rules/fakeip-filter.mrs
-    interval: 86400
-
-  # 自定义规则 (来自 subconverter.ini)
-  pccw:
+  PCCW:
     type: http
     behavior: classical
-    url: https://raw.githubusercontent.com/DeadAt17/rule/main/pccw_clash.yaml
-    path: ./rules/pccw_clash.yaml
+    url: "https://raw.githubusercontent.com/DeadAt17/rule/main/pccw_clash.yaml"
+    path: ./ruleset/pccw.yaml
     interval: 86400
-    format: yaml
-
-  bilibili:
+  Teams:
     type: http
     behavior: classical
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.list
-    path: ./rules/bilibili.list
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Teams/Teams.yaml"
+    path: ./ruleset/Teams.yaml
     interval: 86400
-
-  youtube:
+  BiliBili:
     type: http
     behavior: classical
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/YouTube/YouTube.list
-    path: ./rules/youtube.list
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.yaml"
+    path: ./ruleset/BiliBili.yaml
     interval: 86400
-
-  netflix:
-    type: http\n    behavior: classical
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Netflix/Netflix.list
-    path: ./rules/netflix.list
-    interval: 86400
-
-  tiktok:
+  YouTube:
     type: http
     behavior: classical
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TikTok/TikTok.list
-    path: ./rules/tiktok.list
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/YouTube/YouTube.yaml"
+    path: ./ruleset/YouTube.yaml
     interval: 86400
-
-  ai_custom:
+  Netflix:
     type: http
     behavior: classical
-    url: https://raw.githubusercontent.com/DeadAt17/rule/main/ai_clash.yaml
-    path: ./rules/ai_clash.yaml
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Netflix/Netflix.yaml"
+    path: ./ruleset/Netflix.yaml
     interval: 86400
-    format: yaml
-  
-  ai_fmz200:
+  TikTok:
     type: http
     behavior: classical
-    url: https://raw.githubusercontent.com/fmz200/wool_scripts/main/Loon/rule/AI.list
-    path: ./rules/ai_fmz200.list
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TikTok/TikTok.yaml"
+    path: ./ruleset/TikTok.yaml
     interval: 86400
-
-  openai:
+  KeleeAI:
     type: http
     behavior: classical
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.list
-    path: ./rules/openai.list
+    url: "https://kelee.one/Tool/Clash/Rule/AI.yaml"
+    path: ./ruleset/KeleeAI.yaml
     interval: 86400
-
-  apple:
+  OpenAI:
     type: http
     behavior: classical
-    url: https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/apple.txt
-    path: ./rules/apple.txt
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.yaml"
+    path: ./ruleset/OpenAI.yaml
     interval: 86400
-
-  microsoft:
-    type: http
-    behavior: classical\n    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Microsoft/Microsoft.list
-    path: ./rules/microsoft.list
-    interval: 86400
-
-  game:
+  Claude:
     type: http
     behavior: classical
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Game/Game.list
-    path: ./rules/game.list\n    interval: 86400
-
-  delta:
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Claude/Claude.yaml"
+    path: ./ruleset/Claude.yaml
+    interval: 86400
+  BardAI:
     type: http
     behavior: classical
-    url: https://raw.githubusercontent.com/DeadAt17/rule/main/delta_clash.yaml
-    path: ./rules/delta_clash.yaml
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BardAI/BardAI.yaml"
+    path: ./ruleset/BardAI.yaml
     interval: 86400
-    format: yaml
+  Gemini:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Gemini/Gemini.yaml"
+    path: ./ruleset/Gemini.yaml
+    interval: 86400
+  Bing:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Bing/Bing.yaml"
+    path: ./ruleset/Bing.yaml
+    interval: 86400
+  Copilot:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Copilot/Copilot.yaml"
+    path: ./ruleset/Copilot.yaml
+    interval: 86400
+  AI:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/DeadAt17/rule/main/ai_clash.yaml"
+    path: ./ruleset/ai.yaml
+    interval: 86400
+  Apple:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/apple.txt"
+    path: ./ruleset/apple.txt
+    interval: 86400
+  iCloud:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/icloud.txt"
+    path: ./ruleset/icloud.txt
+    interval: 86400
+  Delta:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/DeadAt17/rule/main/delta_clash.yaml"
+    path: ./ruleset/delta.yaml
+    interval: 86400
+  Microsoft:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Microsoft/Microsoft.yaml"
+    path: ./ruleset/Microsoft.yaml
+    interval: 86400
+  Game:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Game/Game.yaml"
+    path: ./ruleset/Game.yaml
+    interval: 86400
+  Farms:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/DeadAt17/rule/main/farms_clash.yaml"
+    path: ./ruleset/farms.yaml
+    interval: 86400
+  Common:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/DeadAt17/rule/main/common_clash.yaml"
+    path: ./ruleset/common.yaml
+    interval: 86400
+  Telegram:
+    type: http
+    behavior: ipcidr
+    url: "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/telegramcidr.txt"
+    path: ./ruleset/telegramcidr.txt
+    interval: 86400
+  Proxy:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/proxy.txt"
+    path: ./ruleset/proxy.txt
+    interval: 86400
+  GFW:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/gfw.txt"
+    path: ./ruleset/gfw.txt
+    interval: 86400
+  TLDNotCN:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/tld-not-cn.txt"
+    path: ./ruleset/tld-not-cn.txt
+    interval: 86400
+  Private:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/private.txt"
+    path: ./ruleset/private.txt
+    interval: 86400
 
-### 规则配置 (Rules)
 rules:
-  # PCCW
-  - RULE-SET,pccw,DIRECT
-
-  # Media
-  - RULE-SET,bilibili,📺 哔哩哔哩
-  - RULE-SET,youtube,📺 YouTube
-  - RULE-SET,netflix,📺 Netflix
-  - RULE-SET,tiktok,💃 TikTok
-
-  # AI
-  - RULE-SET,ai_custom,💬 AI节点
-  - RULE-SET,ai_fmz200,💬 AI节点
-  - RULE-SET,openai,💬 AI节点
-
-  # Services
-  - RULE-SET,apple,🍎 Apple
-  - RULE-SET,microsoft,📧 Microsoft
-  - RULE-SET,game,🎮 Game
-  - RULE-SET,delta,😶 Delta
-
-  # Final
-  - MATCH,🚀 节点选择
+  - "RULE-SET,PCCW,DIRECT"
+  - "RULE-SET,Teams,DIRECT"
+  - "RULE-SET,BiliBili,哔哩哔哩"
+  - "RULE-SET,YouTube,YouTube"
+  - "RULE-SET,Netflix,Netflix"
+  - "RULE-SET,TikTok,TikTok"
+  - "RULE-SET,KeleeAI,AI节点"
+  - "RULE-SET,OpenAI,AI节点"
+  - "RULE-SET,Claude,AI节点"
+  - "RULE-SET,BardAI,AI节点"
+  - "RULE-SET,Gemini,AI节点"
+  - "RULE-SET,Bing,AI节点"
+  - "RULE-SET,Copilot,AI节点"
+  - "RULE-SET,AI,AI节点"
+  - "RULE-SET,Apple,Apple"
+  - "RULE-SET,iCloud,Apple"
+  - "RULE-SET,Delta,Delta"
+  - "RULE-SET,Microsoft,Microsoft"
+  - "RULE-SET,Game,Game"
+  - "RULE-SET,Farms,节点选择"
+  - "RULE-SET,Common,节点选择"
+  - "RULE-SET,Telegram,Telegram"
+  - "RULE-SET,Proxy,节点选择"
+  - "RULE-SET,GFW,节点选择"
+  - "RULE-SET,TLDNotCN,节点选择"
+  - "RULE-SET,Private,DIRECT"
+  - "GEOIP,CN,DIRECT"
+  - "MATCH,节点选择"

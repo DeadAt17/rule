@@ -1,35 +1,74 @@
 # NAME: ai
 # AUTHOR: blackmatrix7
 # REPO: https://github.com/DeadAt17/rule
-# UPDATED: 2024-2-4 16:59:59
-# DOMAIN-SUFFIX: 3
-# TOTAL: 3
-DOMAIN-SUFFIX,generativelanguage.googleapis.com
-DOMAIN-SUFFIX,OPENAI.COM
-DOMAIN-SUFFIX,coze.com
-DOMAIN,gemini.google.com
-DOMAIN-SUFFIX,x.ai
-DOMAIN,x.ai
-DOMAIN,api.workos.com
-DOMAIN-SUFFIX,groq.com
-DOMAIN-SUFFIX,codeium.com
-DOMAIN,labs.google
-DOMAIN-SUFFIX,labs.google
-DOMAIN-SUFFIX,googleapis.com
-## Cursor
-DOMAIN-SUFFIX,api2.cursor.sh
-DOMAIN-SUFFIX,elevenlabs.io
-DOMAIN-SUFFIX,cursor.sh
-DOMAIN-SUFFIX,marketplace.cursorapi.com
-DOMAIN-SUFFIX,download.todesktop.com
-DOMAIN-SUFFIX,cursor-cdn.com
+# UPDATED: 2026-03-09
+# DOMAIN-SUFFIX: 46
+# TOTAL: 68
+DOMAIN-KEYWORD,alkalimakersuite-pa.clients6.google.com
 DOMAIN-KEYWORD,cursor
-# https://www.perplexity.ai/
+DOMAIN-KEYWORD,notebooklm
+DOMAIN-KEYWORD,openai
 DOMAIN-KEYWORD,perplexity
-DOMAIN-SUFFIX,perplexity.ai
-# NotebookLM
-DOMAIN,notebooklm.google.com
+DOMAIN,ai.google.dev
+DOMAIN,aida.googleapis.com
+DOMAIN,aisandbox-pa.googleapis.com
+DOMAIN,alkalicore-pa.clients6.google.com
+DOMAIN,antigravity.google
+DOMAIN,api.github.com
+DOMAIN,api.jetbrains.ai
+DOMAIN,api.workos.com
+DOMAIN,gateway.ai.cloudflare.com
+DOMAIN,gemini.google.com
+DOMAIN,jules.google.com
+DOMAIN,labs.google
 DOMAIN,notebooklm.google
+DOMAIN,notebooklm.google.com
+DOMAIN,openrouter.ai
+DOMAIN,robinfrontend-pa.googleapis.com
+DOMAIN,x.ai
+DOMAIN-SUFFIX,ai.com
+DOMAIN-SUFFIX,aistudio.google.com
+DOMAIN-SUFFIX,anthropic.com
+DOMAIN-SUFFIX,api2.cursor.sh
+DOMAIN-SUFFIX,bard.google.com
+DOMAIN-SUFFIX,chat.com
+DOMAIN-SUFFIX,chatgpt.com
+DOMAIN-SUFFIX,claude.ai
+DOMAIN-SUFFIX,claude.com
+DOMAIN-SUFFIX,clipdrop.co
+DOMAIN-SUFFIX,cloudcode-pa.googleapis.com
+DOMAIN-SUFFIX,codeium.com
+DOMAIN-SUFFIX,coze.com
+DOMAIN-SUFFIX,cursor-cdn.com
+DOMAIN-SUFFIX,cursor.com
+DOMAIN-SUFFIX,cursor.sh
+DOMAIN-SUFFIX,cursorapi.com
+DOMAIN-SUFFIX,deepmind.com
+DOMAIN-SUFFIX,deepmind.google
+DOMAIN-SUFFIX,dify.ai
+DOMAIN-SUFFIX,download.todesktop.com
+DOMAIN-SUFFIX,elevenlabs.io
+DOMAIN-SUFFIX,geller-pa.googleapis.com
+DOMAIN-SUFFIX,gemini.google
+DOMAIN-SUFFIX,gemini.google.com
+DOMAIN-SUFFIX,generativeai.google
+DOMAIN-SUFFIX,generativelanguage.googleapis.com
+DOMAIN-SUFFIX,googleapis.com
+DOMAIN-SUFFIX,grok.com
+DOMAIN-SUFFIX,groq.com
+DOMAIN-SUFFIX,jasper.ai
+DOMAIN-SUFFIX,labs.google
+DOMAIN-SUFFIX,makersuite.google.com
+DOMAIN-SUFFIX,marketplace.cursorapi.com
+DOMAIN-SUFFIX,meta.ai
 DOMAIN-SUFFIX,notebooklm.google
 DOMAIN-SUFFIX,notebooklm.google.com
-DOMAIN-KEYWORD,notebooklm
+DOMAIN-SUFFIX,nvidia.com
+DOMAIN-SUFFIX,oaistatic.com
+DOMAIN-SUFFIX,openart.ai
+DOMAIN-SUFFIX,openai.com
+DOMAIN-SUFFIX,perplexity.ai
+DOMAIN-SUFFIX,poe.com
+DOMAIN-SUFFIX,proactivebackend-pa.googleapis.com
+DOMAIN-SUFFIX,sora.com
+DOMAIN-SUFFIX,x.ai

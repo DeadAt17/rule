@@ -1,10 +1,10 @@
 # NAME: Claude
 # AUTHOR: blackmatrix7
 # REPO: https://github.com/DeadAt17/rule
-# UPDATED: 2024-1-4 16:59:59
-# DOMAIN-SUFFIX: 5
-# TOTAL: 5
-DOMAIN-SUFFIX,delta17.top
-DOMAIN-SUFFIX,delta17.buzz
-IP-CIDR,192.74.226.64/24
+# UPDATED: 2026-03-09
+# DOMAIN-SUFFIX: 3
+# TOTAL: 4
 DOMAIN-SUFFIX,argotunnel.com
+DOMAIN-SUFFIX,delta17.buzz
+DOMAIN-SUFFIX,delta17.top
+IP-CIDR,192.74.226.64/24

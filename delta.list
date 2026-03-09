@@ -1,9 +1,5 @@
-# NAME: Claude
-# AUTHOR: blackmatrix7
-# REPO: https://github.com/DeadAt17/rule
+# NAME: delta
 # UPDATED: 2026-03-09
-# DOMAIN-SUFFIX: 3
-# TOTAL: 4
 DOMAIN-SUFFIX,argotunnel.com
 DOMAIN-SUFFIX,delta17.buzz
 DOMAIN-SUFFIX,delta17.top

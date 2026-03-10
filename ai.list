@@ -1,11 +1,10 @@
 # NAME: ai
-# AUTHOR: blackmatrix7
 # REPO: https://github.com/DeadAt17/rule
 # UPDATED: 2026-03-09
-# DOMAIN-SUFFIX: 46
-# TOTAL: 68
+# TOTAL: 69
 DOMAIN-KEYWORD,alkalimakersuite-pa.clients6.google.com
 DOMAIN-KEYWORD,cursor
+DOMAIN-KEYWORD,factory
 DOMAIN-KEYWORD,notebooklm
 DOMAIN-KEYWORD,openai
 DOMAIN-KEYWORD,perplexity

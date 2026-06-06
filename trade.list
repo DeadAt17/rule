@@ -1,5 +1,6 @@
+# NAME: polymarket
+DOMAIN-KEYWORD,polymarket
 # NAME: longbridge
-#下两行对港股LV2行情域名服务器很重要
 DOMAIN-KEYWORD,lbkrs
 DOMAIN-KEYWORD,longbridge
 DOMAIN,quote.longbridge.global
